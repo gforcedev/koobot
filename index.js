@@ -17,6 +17,10 @@ client.on('message', message => {
 	const commandName = args.shift().toLowerCase();
 
 	if (commandName === 'help') {
+		if (!args[0]) {
+			message.channel.send(getRootHelpEmbed());
+			return;
+		}
 		try {
 			message.channel.send(commands[args[0]].getHelpEmbed());
 		} catch(e) {
@@ -33,5 +37,13 @@ client.on('message', message => {
 		console.log(e);
 	}
 });
+
+getRootHelpEmbed = () => {
+	const rootHelpEmbed = new Discord.MessageEmbed()
+		.setColor('#0099ff')
+		.setTitle('Koobot Help')
+		.setDescription(`Available commands are:\n - ${Object.keys(commands).join('\n - ')}\n\nUse the help command with these as arguments to find out more eg. !help ping`)
+	return rootHelpEmbed;
+};
 
 client.login(config.token);
