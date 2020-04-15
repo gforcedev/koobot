@@ -28,4 +28,23 @@ firebase.getLadder = async () => {
 	return ladder;
 }
 
+firebase.getPlayerStats = async playerName => {
+	let player = {};
+
+	const playerRef = db.collection('players').doc(playerName);
+	let getPlayer = await playerRef.get()
+		.then(doc => {
+			if (!doc.exists) {
+				player.exists = false;
+			} else {
+				player = {...doc.data(), exists: true};
+			}
+		})
+		.catch(e => {
+			console.log('Error fetching document', e);
+		})
+
+	return player;
+};
+
 module.exports = firebase;
