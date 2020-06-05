@@ -15,7 +15,7 @@ firebase.getLadder = async () => {
 	let ladder = [];
 
 	const playersCollectionRef = db.collection('players').orderBy('position', 'asc');
-	const players = await playersCollectionRef.get()
+	await playersCollectionRef.get()
 		.then(snapshot => {
 			snapshot.forEach(doc => {
 				ladder.push({...doc.data(), name: doc.id});
@@ -32,7 +32,7 @@ firebase.getPlayerStats = async playerName => {
 	let player = {};
 
 	const playerRef = db.collection('players').doc(playerName);
-	let getPlayer = await playerRef.get()
+	await playerRef.get()
 		.then(doc => {
 			if (!doc.exists) {
 				player.exists = false;
