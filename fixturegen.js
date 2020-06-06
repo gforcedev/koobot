@@ -42,7 +42,8 @@ fixturegen.generateFixtures = async () => {
 			swapCount++;
 		}
 	}
-	return bestFixtures;
+
+	return _setAttackDefence(bestFixtures, playerList);
 }
 
 _scoreFixtures = (fixtureList, playerList, matchList) => {
@@ -70,8 +71,6 @@ _scoreFixtures = (fixtureList, playerList, matchList) => {
 				score += i;
 			}
 		}
-
-
 	}
 
 	return score;
@@ -98,5 +97,23 @@ _getPlayerMatches = (player, matchList) => {
 		.filter(e => e.attacker === player | e.defender === player)
 		.sort((a, b) => {a.generated - b.generated}); // oldest first
 };
+
+_setAttackDefence = (fixtures, playerList) => {
+	let newFixtures = fixtures.slice();
+	const players = {};
+	for (let player of playerList) {
+		players[player.name] = player;
+	}
+
+	for (let i = 0; i < fixtures.length; i++) {
+		if (players[fixtures[i][0]].position > players[fixtures[i][1]].position) {
+			temp = newFixtures[i][0];
+			newFixtures[i][0] = fixtures[i][1];
+			newFixtures[i][1] = temp;
+		}
+	}
+
+	return newFixtures;
+}
 
 module.exports = fixturegen;

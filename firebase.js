@@ -74,4 +74,14 @@ firebase.getAllMatches = async () => {
 	return matches;
 };
 
+firebase.writeFixtures = async (fixtures) => {
+	for (let fixture of fixtures) {
+		db.collection('matches').doc().set({
+			attacker: fixture[0],
+			defender: fixture[1],
+			generated: Date.now(),
+		});
+	}
+}
+
 module.exports = firebase;
