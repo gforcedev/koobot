@@ -47,4 +47,31 @@ firebase.getPlayerStats = async playerName => {
 	return player;
 };
 
+firebase.registerPlayer = async (playerName, playerUniqueId) => {
+	let player = {
+		position: -1,
+		id: playerUniqueId,
+		vacation: false,
+	}
+
+	db.collection('players').doc(playerName).set(player);
+};
+
+firebase.getAllMatches = async () => {
+	let matches = [];
+
+	const matchesCollectionRef = db.collection('matches').orderBy('generatedOn', 'desc');
+	await matchesCollectionRef.get()
+		.then(snapshot => {
+			snapshot.forEach(doc => {
+				matches.push(doc.data());
+			});
+		})
+		.catch(e => {
+			console.log('Error fetching documents', e);
+		});
+
+	return matches;
+};
+
 module.exports = firebase;
