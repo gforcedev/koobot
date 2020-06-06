@@ -79,9 +79,29 @@ firebase.writeFixtures = async (fixtures) => {
 		db.collection('matches').doc().set({
 			attacker: fixture[0],
 			defender: fixture[1],
+			played: false,
 			generated: Date.now(),
 		});
 	}
+}
+
+firebase.getUnplayedMatches = async () => {
+	let matches = [];
+
+	const matchesCollectionRef = db.collection('matches')
+		.where('played', '==', false)
+		.orderBy('generated', 'desc');
+	await matchesCollectionRef.get()
+		.then(snapshot => {
+			snapshot.forEach(doc => {
+				matches.push(doc.data());
+			});
+		})
+		.catch(e => {
+			console.log('Error fetching documents', e);
+		});
+
+	return matches;
 }
 
 module.exports = firebase;

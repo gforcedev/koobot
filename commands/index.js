@@ -3,6 +3,7 @@ const RegisterCommand = require('./register')
 const StandingsCommand = require('./standings');
 const StatsCommand = require('./stats')
 const GenerateCommand = require('./generate');
+const ViewfixturesCommand = require('./viewfixtures.js');
 
 module.exports = {
 	ping: new PingCommand(),
@@ -10,5 +11,6 @@ module.exports = {
 	standings: new StandingsCommand(),
 	stats: new StatsCommand(),
 	generate: new GenerateCommand(),
+	viewfixtures: new ViewfixturesCommand(),
 };
 
