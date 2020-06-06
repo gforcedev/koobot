@@ -60,7 +60,7 @@ firebase.registerPlayer = async (playerName, playerUniqueId) => {
 firebase.getAllMatches = async () => {
 	let matches = [];
 
-	const matchesCollectionRef = db.collection('matches').orderBy('generatedOn', 'desc');
+	const matchesCollectionRef = db.collection('matches').orderBy('generated', 'desc');
 	await matchesCollectionRef.get()
 		.then(snapshot => {
 			snapshot.forEach(doc => {
