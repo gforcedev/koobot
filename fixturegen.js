@@ -106,7 +106,7 @@ _setAttackDefence = (fixtures, playerList) => {
 	}
 
 	for (let i = 0; i < fixtures.length; i++) {
-		if (players[fixtures[i][0]].position > players[fixtures[i][1]].position) {
+		if (players[fixtures[i][0]].position < players[fixtures[i][1]].position && players[fixtures[i][0]].position !== -1) {
 			temp = newFixtures[i][0];
 			newFixtures[i][0] = fixtures[i][1];
 			newFixtures[i][1] = temp;

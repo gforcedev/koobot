@@ -141,4 +141,81 @@ firebase.reportMatch = async (attacker, defender, winner, confirmer) => {
 	return writeSuccess;
 };
 
+firebase.confirmMatch = async (confirmer) => {
+	let writeSuccess = true;
+
+	let matches = [];
+	const matchesCollectionRef = db.collection('matches')
+		.where('played', '==', true)
+		.where('confirmed', '==', false)
+		.where('confirmer', '==', confirmer);
+
+	await matchesCollectionRef.get()
+		.then(snapshot => {
+			snapshot.forEach(doc => {
+				matches.push({...doc.data(), id: doc.id});
+			});
+		})
+		.catch(e => {
+			console.log('Error fetching documents', e);
+			writeSuccess = false;
+		});
+
+	if (matches.length !== 1) {
+		return false;
+	}
+
+	await db.collection('matches').doc(matches[0].id).set({
+		confirmed: true,
+	}, {merge: true})
+	.catch(e => {
+		console.log('Error writing document', e);
+		writeSuccess = false;
+	});
+
+	await firebase.updateStandings(matches[0]);
+
+	return writeSuccess;
+}
+
+firebase.updateStandings = async (match) => {
+	const attackerStats = await firebase.getPlayerStats(match.attacker);
+	const defenderStats = await firebase.getPlayerStats(match.defender);
+
+	if (attackerStats.position !== -1) {
+		if (match.winner === match.attacker) {
+			await db.collection('players').doc(match.attacker).set({
+				position: defenderStats.position,
+			}, {merge: true});
+
+			await db.collection('players').doc(match.defender).set({
+				position: attackerStats.position,
+			}, {merge: true});
+		}
+	} else {
+		let players = await firebase.getLadder();
+		for (let player of players) {
+			if (player.position > defenderStats.position) {
+				await db.collection('players').doc(player.name).set({
+					position: player.position + 1,
+				}, {merge: true});
+			}
+		}
+
+		if (match.winner === match.attacker) {
+			await db.collection('players').doc(match.attacker).set({
+				position: defenderStats.position,
+			}, {merge: true});
+
+			await db.collection('players').doc(match.defender).set({
+				position: defenderStats.position + 1,
+			}, {merge: true});
+		} else {
+			await db.collection('players').doc(match.attacker).set({
+				position: defenderStats.position + 1,
+			}, {merge: true});
+		}
+	}
+};
+
 module.exports = firebase;

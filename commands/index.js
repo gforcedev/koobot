@@ -5,6 +5,7 @@ const StatsCommand = require('./stats')
 const GenerateCommand = require('./generate');
 const ViewfixturesCommand = require('./viewfixtures.js');
 const ReportCommand = require('./report.js')
+const ConfirmCommand = require('./confirm.js');
 
 module.exports = {
 	ping: new PingCommand(),
@@ -14,5 +15,6 @@ module.exports = {
 	generate: new GenerateCommand(),
 	viewfixtures: new ViewfixturesCommand(),
 	report: new ReportCommand(),
+	confirm: new ConfirmCommand(),
 };
 
