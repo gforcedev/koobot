@@ -104,4 +104,41 @@ firebase.getUnplayedMatches = async () => {
 	return matches;
 }
 
+firebase.reportMatch = async (attacker, defender, winner, confirmer) => {
+	let writeSuccess = true;
+
+	let matches = [];
+	const matchesCollectionRef = db.collection('matches')
+		.where('played', '==', false)
+		.where('attacker', '==', attacker)
+		.where('defender', '==', defender);
+
+	await matchesCollectionRef.get()
+		.then(snapshot => {
+			snapshot.forEach(doc => {
+				matches.push({...doc.data(), id: doc.id});
+			});
+		})
+		.catch(e => {
+			console.log('Error fetching documents', e);
+			writeSuccess = false;
+		});
+
+	if (matches.length !== 1) {
+		return false;
+	}
+
+	await db.collection('matches').doc(matches[0].id).set({
+		played: true,
+		winner: winner,
+		confirmer: confirmer,
+		confirmed: false,
+	}, {merge: true})
+	.catch(e => {
+		console.log('Error writing document', e);
+		writeSuccess = false;
+	});
+	return writeSuccess;
+};
+
 module.exports = firebase;
