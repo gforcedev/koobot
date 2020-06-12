@@ -11,10 +11,6 @@ module.exports = class PingCommand extends BaseCommand {
 	}
 
 	execute(message, args) {
-		if (args[0]) {
-			message.channel.send(`Pong ${args[0]}`);
-		} else {
-			message.channel.send('Pong');
-		}
+		message.channel.send('Pong ' + args.join(' '));
 	}
 }
