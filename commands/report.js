@@ -10,7 +10,7 @@ module.exports = class ReportCommand extends BaseCommand {
 			args: {
 				attacker: 'The player who was lower on the leaderboard, or the unrated player',
 				defender: 'The player who was higher on the leaderboard, or the already existing player',
-				winner: 'The player who lost the game'
+				winner: 'The player who WON the game'
 			}
 		});
 	}
