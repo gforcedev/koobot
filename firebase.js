@@ -182,18 +182,26 @@ firebase.updateStandings = async (match) => {
 	const attackerStats = await firebase.getPlayerStats(match.attacker);
 	const defenderStats = await firebase.getPlayerStats(match.defender);
 
+	let players = await firebase.getLadder();
+
 	if (attackerStats.position !== -1) {
 		if (match.winner === match.attacker) {
+
+			// move defender to one above attacker down 1
+			for (let player of players) {
+				if (player.position >= defenderStats.position && player.position < attackerStats.position) {
+					await db.collection('players').doc(player.name).set({
+						position: player.position + 1,
+					}, {merge: true});
+				}
+			}
+
 			await db.collection('players').doc(match.attacker).set({
 				position: defenderStats.position,
 			}, {merge: true});
-
-			await db.collection('players').doc(match.defender).set({
-				position: attackerStats.position,
-			}, {merge: true});
 		}
 	} else {
-		let players = await firebase.getLadder();
+		// If we're placing someone, make a gap below defender
 		for (let player of players) {
 			if (player.position > defenderStats.position) {
 				await db.collection('players').doc(player.name).set({
