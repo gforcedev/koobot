@@ -21,10 +21,6 @@ module.exports = class StatsCommand extends BaseCommand {
 			} else {
 				return value.toString();
 			}
-		} else if (stat === 'streak') {
-			return `${Math.abs(value)} ${value >= 0 ? 'wins' : 'losses'}`;
-		} else if (stat === 'adtrend') {
-			return `${value >= 0 ? 'Attacked' : 'Defended'} ${Math.abs(value)} time(s) in a row`;
 		} else {
 			return value.toString();
 		}
@@ -41,8 +37,10 @@ module.exports = class StatsCommand extends BaseCommand {
 			.setColor('#0099ff')
 			.setTitle(`King of ones stats for ${args[0].toUpperCase()}`)
 
+		const dontShow = ['exists', 'seed', 'id'];
+
 		for (let k of Object.keys(player)) {
-			if (k !== 'exists') {
+			if (dontShow.indexOf(k) === -1) {
 				statsEmbed.addField(k, this._processStat(k, player[k]));
 			}
 		}
