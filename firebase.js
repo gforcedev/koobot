@@ -226,4 +226,21 @@ firebase.updateStandings = async (match) => {
 	}
 };
 
+firebase.getPlayerNameById = async id => {
+	let playerName = '';
+	const playersCollectionRef = db.collection('players')
+		.where('id', '==', id);
+
+	await playersCollectionRef.get()
+		.then(snapshot => {
+			snapshot.forEach(doc => {
+				playerName = doc.id;
+			});
+		})
+		.catch(e => {
+			console.log('Error fetching documents', e);
+		});
+	return playerName;
+}
+
 module.exports = firebase;
