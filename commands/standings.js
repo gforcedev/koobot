@@ -21,7 +21,7 @@ module.exports = class StandingsCommand extends BaseCommand {
 		for (let i = 1; i < ladder.length; i++) {
 			ladderString += `${i}. ${ladder[i].name}\n`;
 		}
-		for (let i = 1; i < unplaced.length; i++) {
+		for (let i = 0; i < unplaced.length; i++) {
 			ladderString += `New challenger: ${unplaced[i].name}\n`;
 		}
 
