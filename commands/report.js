@@ -16,10 +16,11 @@ module.exports = class ReportCommand extends BaseCommand {
 	}
 
 	async execute(message, args) {
-		const attacker = args[0].toLowerCase();
-		const defender = args[1].toLowerCase();
-		const winner = args[2].toLowerCase();
-		const reporterName = message.member.displayName.toLowerCase();
+		const attacker = await firebase.getPlayerNameById(args[0].match(/[0-9]+/g)[0]);
+		const defender = await firebase.getPlayerNameById(args[1].match(/[0-9]+/g)[0]);
+		const winner = await firebase.getPlayerNameById(args[2].match(/[0-9]+/g)[0]);
+		const reporterName = await firebase.getPlayerNameById(message.member.id);
+
 		let confirmer = '';
 
 		if (reporterName === attacker) {
