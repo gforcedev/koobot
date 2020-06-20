@@ -18,11 +18,11 @@ module.exports = class ViewfixturesCommand extends BaseCommand {
 			.setColor('#0099ff')
 			.setTitle('King of Ones Fixtures')
 
+		let fixtureString = '';
 		for (let fixture of fixtures) {
-			fixtureEmbed.addField('Attacker', fixture.attacker, true);
-			fixtureEmbed.addField('---', 'vs', true);
-			fixtureEmbed.addField('Defender', fixture.defender, true);
+			fixtureString += `${fixture.attacker.toUpperCase()} attacking ${fixture.defender.toUpperCase()}\n\n`;
 		}
+		fixtureEmbed.setDescription(fixtureString);
 
 		message.channel.send(fixtureEmbed);
 	}
