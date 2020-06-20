@@ -13,11 +13,16 @@ module.exports = class StandingsCommand extends BaseCommand {
 
 	async execute(message, args) {
 		// message.channel.send('The ladder is not yet viewable - come back soon to see when it gets created, and register if you would like to be involved!');
-		const ladder = await firebase.getLadder();
+		const fullLadder = await firebase.getLadder();
+		const ladder = fullLadder.filter(e => e.position !== -1);
+		const unplaced = fullLadder.filter(e => e.position === -1);
 
 		let ladderString = '';
 		for (let i = 1; i < ladder.length; i++) {
 			ladderString += `${i}. ${ladder[i].name}\n`;
+		}
+		for (let i = 1; i < unplaced.length; i++) {
+			ladderString += `New challenger: ${ladder[i].name}\n`;
 		}
 
 		// remove trailing newline
