@@ -16,9 +16,9 @@ module.exports = class ReportCommand extends BaseCommand {
 	}
 
 	async execute(message, args) {
-		const attacker = args[0];
-		const defender = args[1];
-		const winner = args[2];
+		const attacker = args[0].toLowerCase();
+		const defender = args[1].toLowerCase();
+		const winner = args[2].toLowerCase();
 		const reporterName = message.member.displayName.toLowerCase();
 		let confirmer = '';
 
