@@ -31,12 +31,12 @@ fixturegen.generateFixtures = async () => {
 	let bestScore = _scoreFixtures(bestFixtures, playerList, matchList);
 	let swapCount = 0;
 
-	while (swapCount < 500) {
+	while (swapCount < 1000) {
 		const newFixtures = _swapTwoInFixtureList(bestFixtures);
 		const newScore = _scoreFixtures(newFixtures, playerList, matchList);
 		if (newScore < bestScore) {
 			bestScore = newScore;
-			bestFixtures = newFixtures;
+			bestFixtures = JSON.parse(JSON.stringify(newFixtures));
 			swapCount = 0;
 		} else {
 			swapCount++;
@@ -77,7 +77,7 @@ _scoreFixtures = (fixtureList, playerList, matchList) => {
 }
 
 _swapTwoInFixtureList = (fixtureList) => {
-	let newFixtureList = fixtureList.slice();
+	let newFixtureList = JSON.parse(JSON.stringify(fixtureList));
 	const match1 = Math.floor(Math.random() * fixtureList.length);
 	const player1 = Math.floor(Math.random() * 2);
 	const name1 = fixtureList[match1][player1];
