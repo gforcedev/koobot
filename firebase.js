@@ -226,6 +226,21 @@ firebase.updateStandings = async (match) => {
 	}
 };
 
+firebase.removePlayer = async playerName => {
+	const playerStats = await firebase.getPlayerStats(playerName);
+	db.collection('players').doc('playername').delete()
+		.catch(e => console.log('Error removing document: ', e));
+
+	const players = await firebase.getLadder();
+	for (let player of players) {
+		if (player.position > playerStats.position) {
+			await db.collection('players').doc(player.name).set({
+				position: player.position + 1,
+			}, {merge: true});
+		}
+	}
+}
+
 firebase.getPlayerNameById = async id => {
 	let playerName = '';
 	const playersCollectionRef = db.collection('players')
