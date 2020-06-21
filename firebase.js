@@ -235,7 +235,7 @@ firebase.removePlayer = async playerName => {
 	for (let player of players) {
 		if (player.position > playerStats.position) {
 			await db.collection('players').doc(player.name).set({
-				position: player.position - 2,
+				position: player.position - 1,
 			}, {merge: true});
 		}
 	}
