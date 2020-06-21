@@ -228,14 +228,14 @@ firebase.updateStandings = async (match) => {
 
 firebase.removePlayer = async playerName => {
 	const playerStats = await firebase.getPlayerStats(playerName);
-	db.collection('players').doc('playername').delete()
+	db.collection('players').doc(playerName).delete()
 		.catch(e => console.log('Error removing document: ', e));
 
 	const players = await firebase.getLadder();
 	for (let player of players) {
 		if (player.position > playerStats.position) {
 			await db.collection('players').doc(player.name).set({
-				position: player.position + 1,
+				position: player.position - 1,
 			}, {merge: true});
 		}
 	}
