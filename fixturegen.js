@@ -52,7 +52,7 @@ _scoreFixtures = (fixtureList, playerList, matchList) => {
 		players[player.name] = player;
 		// If it's someone new, use their seed for fixture generation
 		if (player.position === -1) {
-			players[player.name].posistion = player.seed;
+			players[player.name].position = player.seed;
 		}
 	}
 
@@ -68,7 +68,7 @@ _scoreFixtures = (fixtureList, playerList, matchList) => {
 		for (let i = 0; i < player1Matches.length; i++) {
 			if (player1Matches[i].attacker === fixture[1] ||
 				player1Matches[i].defender === fixture[1]) {
-				score += i;
+				score += (4 - i);
 			}
 		}
 	}
@@ -95,7 +95,7 @@ _swapTwoInFixtureList = (fixtureList) => {
 _getPlayerMatches = (player, matchList) => {
 	return matchList
 		.filter(e => e.attacker === player | e.defender === player)
-		.sort((a, b) => {a.generated - b.generated}); // oldest first
+		.sort((a, b) => {b.generated - a.generated}); // NEWEST first
 };
 
 _setAttackDefence = (fixtures, playerList) => {
