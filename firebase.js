@@ -258,4 +258,17 @@ firebase.getPlayerNameById = async id => {
 	return playerName;
 }
 
+firebase.deleteUnplayed = async () => {
+	const matchesCollectionRef = db.collection('matches')
+		.where('played', '==', false);
+
+	await matchesCollectionRef.get()
+		.then(snapshot => {
+			snapshot.forEach(doc => {
+				db.collection('matches').doc(doc.id).delete()
+					.catch(e => console.log('Error removing document: ', e));
+			})
+		})
+}
+
 module.exports = firebase;

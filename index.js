@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 
 const config = require('./config.json');
 const commands = require('./commands');
+const firebase = require('./firebase');
 
 const client = new Discord.Client();
 
