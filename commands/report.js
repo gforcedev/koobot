@@ -27,6 +27,8 @@ module.exports = class ReportCommand extends BaseCommand {
 			confirmer = defender;
 		} else if (reporterName === defender) {
 			confirmer = attacker;
+		} else if (message.member.id === '169831418656980992') {
+			confirmer = 'gforcedev';
 		}
 
 		const reportStatus = await firebase.reportMatch(attacker, defender, winner, confirmer);
