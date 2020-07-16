@@ -71,6 +71,14 @@ _scoreFixtures = (fixtureList, playerList, matchList) => {
 				score += (4 - i);
 			}
 		}
+
+		// If one of the players wants to play the other, decrease the score
+		if (players[fixture[0]].challenging == fixture[1]) {
+			score -= 3;
+		}
+		if (players[fixture[1]].challenging == fixture[0]) {
+			score -= 3;
+		}
 	}
 
 	return score;
