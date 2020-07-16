@@ -271,4 +271,10 @@ firebase.deleteUnplayed = async () => {
 		})
 }
 
+firebase.setPlayerChallenging = async (challenger, challengee) => {
+	db.collection('players').doc(challenger).set({
+		challenging: challengee,
+	}, {merge: true});
+}
+
 module.exports = firebase;
