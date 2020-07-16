@@ -19,6 +19,6 @@ module.exports = class ChallengeCommand extends BaseCommand {
 
 		firebase.setPlayerChallenging(challengerName, challengeeName);
 
-		message.channel.send(`${challengerName}, you are now challenging ${challengeename}`);
+		message.channel.send(`${challengerName}, you are now challenging ${challengeeName}`);
 	}
 }
