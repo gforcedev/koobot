@@ -277,4 +277,10 @@ firebase.setPlayerChallenging = async (challenger, challengee) => {
 	}, {merge: true});
 }
 
+firebase.unsetPlayerChallenging = async (challenger) => {
+	db.collection('players').doc(challenger).set({
+		challenging: '###',
+	}, {merge: true});
+}
+
 module.exports = firebase;

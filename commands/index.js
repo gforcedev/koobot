@@ -8,6 +8,7 @@ const ReportCommand = require('./report.js')
 const ConfirmCommand = require('./confirm.js');
 const RemoveCommand = require('./remove.js');
 const ChallengeCommand = require('./challenge');
+const UnchallengeCommand = require('./unchallenge');
 
 module.exports = {
 	ping: new PingCommand(),
@@ -20,5 +21,6 @@ module.exports = {
 	confirm: new ConfirmCommand(),
 	remove: new RemoveCommand(),
 	challenge: new ChallengeCommand(),
+	unchallenge: new UnchallengeCommand(),
 };
 
