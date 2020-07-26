@@ -8,7 +8,7 @@ module.exports = class StatsCommand extends BaseCommand {
 		super('Stats', {
 			description: 'Get stats for a player',
 			args: {
-				player: 'The player to get the stats for',
+				player: '@mention the player to get the stats for',
 			}
 		});
 	}
@@ -27,7 +27,8 @@ module.exports = class StatsCommand extends BaseCommand {
 	}
 
 	async execute(message, args) {
-		let player = await firebase.getPlayerStats(args[0]);
+		const playerName = await firebase.getPlayerNameById(args[0].match(/[0-9]+/g)[0]);
+		let player = await firebase.getPlayerStats(playerName);
 		if (!player.exists) {
 			message.channel.send('Unable to find that player. Use the standings command to check available players');
 			return;
@@ -35,7 +36,7 @@ module.exports = class StatsCommand extends BaseCommand {
 
 		const statsEmbed = new Discord.MessageEmbed()
 			.setColor('#0099ff')
-			.setTitle(`King of ones stats for ${args[0].toUpperCase()}`)
+			.setTitle(`King of ones stats for ${playerName.toUpperCase()}`)
 
 		const dontShow = ['exists', 'seed', 'id'];
 
