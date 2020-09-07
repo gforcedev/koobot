@@ -14,6 +14,7 @@ module.exports = class GenerateCommand extends BaseCommand {
 
 	async execute(message, args) {
 		if (message.member.id === '169831418656980992') { // that's me
+			await firebase.deleteUnplayed();
 			const fixtures = await fixturegen.generateFixtures();
 			firebase.writeFixtures(fixtures);
 			message.channel.send(`A round of fixtures has been generated. Use the viewfixtures command to see them.`);
