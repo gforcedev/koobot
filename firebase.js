@@ -162,6 +162,8 @@ firebase.confirmMatch = async (confirmer) => {
 		});
 
 	if (matches.length !== 1) {
+		console.log(`Matches.length wrong: ${matches.length}`);
+		console.log(confirmer);
 		return false;
 	}
 

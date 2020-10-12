@@ -13,7 +13,7 @@ module.exports = class ConfirmCommand extends BaseCommand {
 	}
 
 	async execute(message, args) {
-		const confirmer = message.member.displayName.toLowerCase();
+		const confirmer = await firebase.getPlayerNameById(message.member.id);
 
 		const confirmStatus = await firebase.confirmMatch(confirmer);
 		if (confirmStatus) {
