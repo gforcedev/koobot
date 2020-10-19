@@ -53,6 +53,7 @@ _scoreFixtures = (fixtureList, playerList, matchList) => {
 		// If it's someone new, use their seed for fixture generation
 		if (player.position === -1) {
 			players[player.name].position = player.seed;
+			players[player.name].checkPosition = player.position; // for new vs new check
 		}
 	}
 
@@ -78,6 +79,11 @@ _scoreFixtures = (fixtureList, playerList, matchList) => {
 		}
 		if (players[fixture[1]].challenging == fixture[0]) {
 			score -= 3;
+		}
+
+		// If both of the players are new, we REALLY don't want this to happen
+		if (players[fixture[0]].checkPosition === -1 && players[fixture[1]].checkPosition === -1) {
+			score += 9999;
 		}
 	}
 
@@ -114,7 +120,12 @@ _setAttackDefence = (fixtures, playerList) => {
 	}
 
 	for (let i = 0; i < fixtures.length; i++) {
-		if (players[fixtures[i][0]].position < players[fixtures[i][1]].position && players[fixtures[i][0]].position !== -1) {
+		if (
+			(players[fixtures[i][0]].position < players[fixtures[i][1]].position &&
+				players[fixtures[i][0]].position !== -1) ||
+			(players[fixtures[i][1]].position === -1)
+		)
+		{
 			temp = newFixtures[i][0];
 			newFixtures[i][0] = fixtures[i][1];
 			newFixtures[i][1] = temp;
