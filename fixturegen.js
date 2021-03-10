@@ -63,7 +63,6 @@ _scoreFixtures = (fixtureList, playerList, matchList) => {
 		// Add the temp^(difference in positions to the score)
 		// So fixtures that are really far apart are exponentially less incentivised
 		const temp = 1.8;
-		console.log(`${players[fixture[0]].name} (${players[fixture[0]].position}) vs ${players[fixture[1]].name} (${players[fixture[1]].position}): adding ${temp ** Math.abs((players[fixture[0]].position - players[fixture[1]].position))}`);
 		score += temp ** Math.abs((players[fixture[0]].position - players[fixture[1]].position));
 
 		// If the players have played each other recently, increase the score
@@ -130,7 +129,6 @@ _setAttackDefence = (fixtures, playerList) => {
 			(players[fixtures[i][1]].checkPosition === -1)
 		)
 		{
-			console.log('swapping');
 			temp = newFixtures[i][0];
 			newFixtures[i][0] = fixtures[i][1];
 			newFixtures[i][1] = temp;
