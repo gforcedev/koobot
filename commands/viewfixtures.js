@@ -13,6 +13,7 @@ module.exports = class ViewfixturesCommand extends BaseCommand {
 
 	async execute(message, args) {
 		const fixtures = await firebase.getUnplayedMatches();
+		const players = await firebase.getLadder();
 
 		const fixtureEmbed = new Discord.MessageEmbed()
 			.setColor('#0099ff')
@@ -20,10 +21,17 @@ module.exports = class ViewfixturesCommand extends BaseCommand {
 
 		let fixtureString = '';
 		for (let fixture of fixtures) {
-			fixtureString += `${fixture.attacker.toUpperCase()} attacking ${fixture.defender.toUpperCase()}\n\n`;
+			fixtureString += `**(${this.getPlayerPos(players, fixture.attacker)})** ${fixture.attacker.toUpperCase()} _attacking_ **(${this.getPlayerPos(players, fixture.defender)})** ${fixture.defender.toUpperCase()}\n\n`;
 		}
 		fixtureEmbed.setDescription(fixtureString);
 
 		message.channel.send(fixtureEmbed);
+	}
+
+	getPlayerPos(players, name) {
+		const pos = players.filter(p => p.name === name)[0].position;
+
+		if (pos === -1) return 'New';
+		return pos.toString();
 	}
 }
