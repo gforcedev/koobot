@@ -23,7 +23,6 @@ module.exports = class ViewfixturesCommand extends BaseCommand {
 		let vsString = '';
 		let defenderString = '';
 		for (let fixture of fixtures) {
-			fixtureString += `**(${this.getPlayerPos(players, fixture.attacker)})** ${fixture.attacker.toUpperCase()} _attacking_ **(${this.getPlayerPos(players, fixture.defender)})** ${fixture.defender.toUpperCase()}\n\n`;
 			attackerString += `**(${this.getPlayerPos(players, fixture.attacker)})** ${fixture.attacker.toUpperCase()}\n`;
 			vsString += 'vs\n';
 			defenderString += `**(${this.getPlayerPos(players, fixture.defender)})** ${fixture.defender.toUpperCase()}\n`;
