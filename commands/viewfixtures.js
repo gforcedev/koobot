@@ -19,11 +19,22 @@ module.exports = class ViewfixturesCommand extends BaseCommand {
 			.setColor('#0099ff')
 			.setTitle('King of Ones Fixtures')
 
-		let fixtureString = '';
+		let attackerString = '';
+		let vsString = '';
+		let defenderString = '';
 		for (let fixture of fixtures) {
 			fixtureString += `**(${this.getPlayerPos(players, fixture.attacker)})** ${fixture.attacker.toUpperCase()} _attacking_ **(${this.getPlayerPos(players, fixture.defender)})** ${fixture.defender.toUpperCase()}\n\n`;
+			attackerString += `**(${this.getPlayerPos(players, fixture.attacker)})** ${fixture.attacker.toUpperCase()}\n`;
+			vsString += 'vs\n';
+			defenderString += `**(${this.getPlayerPos(players, fixture.defender)})** ${fixture.defender.toUpperCase()}\n`;
 		}
-		fixtureEmbed.setDescription(fixtureString);
+
+
+		fixtureEmbed.addFields(
+			{ name: 'Attacker', value: attackerString, inline: true },
+			{ name: '-', value: vsString, inline: true },
+			{ name: 'Defender', value: defenderString, inline: true },
+		);
 
 		message.channel.send(fixtureEmbed);
 	}
@@ -32,6 +43,7 @@ module.exports = class ViewfixturesCommand extends BaseCommand {
 		const pos = players.filter(p => p.name === name)[0].position;
 
 		if (pos === -1) return 'New';
+		if (pos === 0) return ':crown:';
 		return pos.toString();
 	}
 }
