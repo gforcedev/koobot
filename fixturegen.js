@@ -31,7 +31,7 @@ fixturegen.generateFixtures = async () => {
 	let bestScore = _scoreFixtures(bestFixtures, playerList, matchList);
 	let swapCount = 0;
 
-	while (swapCount < 1000) {
+	while (swapCount < 5000) {
 		const newFixtures = _swapTwoInFixtureList(bestFixtures);
 		const newScore = _scoreFixtures(newFixtures, playerList, matchList);
 		if (newScore < bestScore) {
@@ -58,12 +58,12 @@ _scoreFixtures = (fixtureList, playerList, matchList) => {
 	}
 
 
-	let score = 0;
+	let score = BigInt(0);
 	for (let fixture of fixtureList) {
 		// Add the temp^(difference in positions to the score)
 		// So fixtures that are really far apart are exponentially less incentivised
 		const temp = 1.8;
-		score += temp ** Math.abs((players[fixture[0]].position - players[fixture[1]].position));
+		score += BigInt(Math.floor(temp ** Math.abs((players[fixture[0]].position - players[fixture[1]].position))));
 
 		// If the players have played each other recently, increase the score
 		const player1Matches = _getPlayerMatches(fixture[0], matchList)
@@ -71,16 +71,16 @@ _scoreFixtures = (fixtureList, playerList, matchList) => {
 		for (let i = 0; i < player1Matches.length; i++) {
 			if (player1Matches[i].attacker === fixture[1] ||
 				player1Matches[i].defender === fixture[1]) {
-				score += temp ** (4 - i);
+				score += BigInt(Math.floor(temp ** (4 - i)));
 			}
 		}
 
 		// If one of the players wants to play the other, decrease the score
 		if (players[fixture[0]].challenging == fixture[1]) {
-			score -= temp ** 3;
+			score -= BigInt(Math.floor(temp ** 3));
 		}
 		if (players[fixture[1]].challenging == fixture[0]) {
-			score -= temp ** 3;
+			score -= BigInt(Math.floor(temp ** 3));
 		}
 
 		// If both of the players are new, we REALLY don't want this to happen
