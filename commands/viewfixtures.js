@@ -39,7 +39,12 @@ module.exports = class ViewfixturesCommand extends BaseCommand {
 	}
 
 	getPlayerPos(players, name) {
-		const pos = players.filter(p => p.name === name)[0].position;
+		let pos;
+		try {
+			pos = players.filter(p => p.name === name)[0].position;
+		} catch (e) {
+			return "X";
+		}
 
 		if (pos === -1) return 'New';
 		if (pos === 0) return ':crown:';
