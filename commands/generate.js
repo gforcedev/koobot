@@ -12,9 +12,14 @@ module.exports = class GenerateCommand extends BaseCommand {
 		});
 	}
 
-	async execute(message, args) {
+	async execute(message, _) {
 		if (message.member.id === '169831418656980992') { // that's me
 			await firebase.deleteUnplayed();
+			const unseeded = (await firebase.getLadder()).filter(p => p.position === -1 && !p.seed);
+			if (unseeded) {
+				message.channel.send(`The following players need seeding: ${unseeded.map(p => p.name).join(', ')}`);
+				return;
+			}
 			const fixtures = await fixturegen.generateFixtures();
 			firebase.writeFixtures(fixtures);
 			message.channel.send(`A round of fixtures has been generated. Use the viewfixtures command to see them.`);
