@@ -16,7 +16,7 @@ module.exports = class GenerateCommand extends BaseCommand {
 		if (message.member.id === '169831418656980992') { // that's me
 			await firebase.deleteUnplayed();
 			const unseeded = (await firebase.getLadder()).filter(p => p.position === -1 && !p.seed);
-			if (unseeded) {
+			if (unseeded.length) {
 				message.channel.send(`The following players need seeding: ${unseeded.map(p => p.name).join(', ')}`);
 				return;
 			}
